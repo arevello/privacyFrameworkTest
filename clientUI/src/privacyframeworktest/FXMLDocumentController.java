@@ -5,6 +5,8 @@
  */
 package privacyframeworktest;
 
+import java.io.DataOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -23,7 +25,9 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     Pane paneUserOptions;
+    @FXML
     Pane paneSessionStart;
+    @FXML
     Pane paneRecords;
     
     ArrayList<Pane> panes = new ArrayList<Pane>();
@@ -39,6 +43,17 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void onStartSessionClicked(ActionEvent e){
+        onlyVisiblePane(null);
+        try{
+            Socket s=new Socket("localhost",420);
+            System.out.println("accepted");
+            DataOutputStream dout=new DataOutputStream(s.getOutputStream());  
+            dout.writeInt(1);
+            System.out.println("wrote 1");
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
         onlyVisiblePane(paneUserOptions);
     }
     

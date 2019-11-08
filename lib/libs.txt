@@ -1,0 +1,7 @@
+install sqlite on windows (may not be needed)
+"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86\nmake.exe" /f Makefile.msc
+
+sqlite jdbc
+https://bitbucket.org/xerial/sqlite-jdbc/downloads/
+sqlite-jdbc-3.27.2.1.jar
