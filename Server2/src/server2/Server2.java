@@ -6,6 +6,7 @@
 package server2;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -18,19 +19,17 @@ public class Server2 {
     public static void main(String args[]) {
         try {
             int portNumber = 420;
-            ServerSocket serverSocket = new ServerSocket(portNumber);
             int temp = 1;
-            boolean first = true;
+            ThreadFactory tf = new ThreadFactory();
+            ServerSocket serverSocket = new ServerSocket(portNumber);
             while (true) {
-                if(!first){
-                    Socket clientSocket = serverSocket.accept();
-                    DataInputStream dis=new DataInputStream(clientSocket.getInputStream());
-                    temp = dis.readInt();
-                }
+                Socket clientSocket = serverSocket.accept();
+                DataInputStream dis=new DataInputStream(clientSocket.getInputStream());
+                DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
+                temp = dis.readInt();
                 //get info from client about type of session to start
                 //
-                first = false;
-                new HelperThread(temp);
+                tf.startThread(temp, dis, dos);
                 System.out.println("started thread");
                 
             }

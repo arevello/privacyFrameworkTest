@@ -5,11 +5,17 @@
  */
 package privacyframeworktest;
 
+import MessageBlocks.Client.ClientCodes;
+import MessageBlocks.Client.Messages.LoginMessage;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,6 +34,9 @@ import recordStructures.client.UserInfo;
  * @author arevello
  */
 public class FXMLDocumentController implements Initializable {
+    Socket s;
+    DataOutputStream dout;
+    DataInputStream din;
     
     @FXML
     Pane paneLogin;
@@ -35,6 +44,11 @@ public class FXMLDocumentController implements Initializable {
     Pane paneInit;
     @FXML
     Pane paneRecords;
+    
+    @FXML
+    TextField txtUsername;
+    @FXML
+    TextField txtPassword;
     
     @FXML
     VBox vboxRecords;
@@ -60,13 +74,17 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void onStartSessionClicked(ActionEvent e){
-        onlyVisiblePane(null);
+        //onlyVisiblePane(null);
         try{
-            Socket s=new Socket("localhost",420);
-            System.out.println("accepted");
-            DataOutputStream dout=new DataOutputStream(s.getOutputStream());  
-            dout.writeInt(1);
-            System.out.println("wrote 1");
+            System.out.println("HERE writing " + ClientCodes.login);
+            LoginMessage lm = new LoginMessage(txtUsername.getText(), txtPassword.getText().hashCode());
+            dout.writeInt(ClientCodes.login);
+            dout.write(lm.toByteBuffer());
+            
+            if(din.readInt() == ClientCodes.acceptMsg)
+                System.out.println("accept");
+            else 
+                System.out.println("reject");
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -76,6 +94,19 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        try {
+            s = new Socket("localhost",420);
+            System.out.println("accepted");
+            dout = new DataOutputStream(s.getOutputStream());
+            din = new DataInputStream(s.getInputStream());
+            dout.writeInt(1);
+            System.out.println("wrote 1");
+            
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         // TODO
         panes.add(paneRecords);
         panes.add(paneInit);
