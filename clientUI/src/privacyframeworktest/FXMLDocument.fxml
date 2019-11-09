@@ -6,52 +6,49 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="privacyframeworktest.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privacyframeworktest.FXMLDocumentController">
    <children>
-      <Pane id="paneUserOptions" fx:id="paneUserOptions" prefHeight="200.0" prefWidth="320.0" visible="false">
+      <Pane id="paneSessionStart" fx:id="paneLogin" prefHeight="222.0" prefWidth="340.0" visible="false">
          <children>
-            <HBox id="hboxUserOptions" fx:id="hboxUserOptions" alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="340.0">
                <children>
-                  <Button id="btnEdit" fx:id="btnEdit" mnemonicParsing="false" onAction="#onEditButtonClicked" text="Edit Info" />
-                  <Separator prefHeight="0.0" prefWidth="30.0" />
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Separator prefHeight="0.0" prefWidth="30.0" />
-                  <Button mnemonicParsing="false" text="Button" />
-               </children>
-            </HBox>
-         </children>
-      </Pane>
-      <Pane id="paneSessionStart" fx:id="paneSessionStart" prefHeight="200.0" prefWidth="320.0" visible="false">
-         <children>
-            <HBox id="hboxSessionStart" fx:id="hboxSessionStart" alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
-               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Username" />
+                        <Separator prefWidth="30.0" />
+                        <TextField fx:id="txtUsername" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Password" />
+                        <Separator prefWidth="30.0" />
+                        <TextField id="txtPassword" fx:id="txtPassword" />
+                     </children>
+                  </HBox>
                   <Button id="btnStartSession" fx:id="btnStartSession" mnemonicParsing="false" onAction="#onStartSessionClicked" text="Start Session" />
                </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane id="paneRecords" fx:id="paneRecords" prefHeight="222.0" prefWidth="340.0" visible="false">
+         <children>
+            <HBox alignment="CENTER" prefHeight="222.0" prefWidth="340.0">
+               <children>
+                  <VBox fx:id="vboxRecords" prefHeight="243.0" prefWidth="326.0" />
+               </children>
             </HBox>
          </children>
       </Pane>
-      <Pane id="paneRecords" fx:id="paneRecords" prefHeight="200.0" prefWidth="320.0" visible="false">
+      <Pane id="paneUserOptions" fx:id="paneInit" layoutX="-1.0" prefHeight="222.0" prefWidth="340.0" visible="false">
          <children>
-            <HBox fx:id="hboxRecords" alignment="CENTER" prefHeight="200.0" prefWidth="320.0">
+            <VBox alignment="CENTER" prefHeight="222.0" prefWidth="340.0">
                <children>
-                  <VBox prefHeight="243.0" prefWidth="326.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Label" />
-                              <TextField />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Label" />
-                              <TextField />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <Button id="btnEdit" fx:id="btnLogin" mnemonicParsing="false" onAction="#btnLoginClicked" text="Login" />
+                  <Separator orientation="VERTICAL" prefHeight="30.0" />
+                  <Button fx:id="btnCreateAccount" mnemonicParsing="false" onAction="#btnCreateAccountClicked" text="Create Account" />
                </children>
-            </HBox>
+            </VBox>
          </children>
       </Pane>
    </children>

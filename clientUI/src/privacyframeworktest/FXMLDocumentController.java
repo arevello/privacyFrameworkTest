@@ -13,9 +13,15 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import recordStructures.RecordStructure;
+import recordStructures.client.UserInfo;
 
 /**
  *
@@ -24,21 +30,32 @@ import javafx.scene.layout.Pane;
 public class FXMLDocumentController implements Initializable {
     
     @FXML
-    Pane paneUserOptions;
+    Pane paneLogin;
     @FXML
-    Pane paneSessionStart;
+    Pane paneInit;
     @FXML
     Pane paneRecords;
+    
+    @FXML
+    VBox vboxRecords;
     
     ArrayList<Pane> panes = new ArrayList<Pane>();
     
     @FXML
     private Button btnEdit;
+    @FXML
     private Button btnStartSession;
     
     @FXML
-    private void onEditButtonClicked(ActionEvent event) {
+    private void btnLoginClicked(ActionEvent event) {
+        onlyVisiblePane(paneLogin);
+    }
+    
+    @FXML
+    private void btnCreateAccountClicked(ActionEvent event){
+        onlyVisiblePane(paneRecords);
         
+        paneRecords.getChildren().add(this.recordToVBox(new UserInfo(), false));
     }
     
     @FXML
@@ -54,17 +71,17 @@ public class FXMLDocumentController implements Initializable {
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-        onlyVisiblePane(paneUserOptions);
+        onlyVisiblePane(paneInit);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         panes.add(paneRecords);
-        panes.add(paneUserOptions);
-        panes.add(paneSessionStart);
+        panes.add(paneInit);
+        panes.add(paneLogin);
         
-        paneSessionStart.setVisible(true);
+        paneInit.setVisible(true);
         //onlyVisiblePane(paneSessionStart);
     }    
     
@@ -77,4 +94,19 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    private VBox recordToVBox(RecordStructure rs, boolean getValue){
+        VBox ret = new VBox();
+        ret.setAlignment(Pos.CENTER);
+        for(int i = 0; i < rs.getEmptyList().size(); i++){
+            Label l = new Label(rs.getEmptyList().get(i).key);
+            TextField t = new TextField();
+            if(getValue)
+                t.setText(rs.getEmptyList().get(i).toString());
+            HBox h = new HBox(l,t);
+            h.setAlignment(Pos.CENTER);
+            ret.getChildren().add(h);
+        }
+        
+        return ret;
+    } 
 }

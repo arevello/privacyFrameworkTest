@@ -5,15 +5,13 @@
  */
 package recordStructures;
 
+import java.util.ArrayList;
+
 /**
  *
- * @author arevello
+ * @author Alex
  */
-public class SqlDataPair {
-    public String key = "";
-    public PairGeneric value = null;
-    public SqlDataPair(String key, PairGeneric value){
-        this.key = key;
-        this.value = value;
-    }
+public interface RecordStructure {
+    
+    public ArrayList<SqlDataPair> getEmptyList();
 }
