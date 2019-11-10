@@ -51,5 +51,25 @@
             </VBox>
          </children>
       </Pane>
+      <Pane fx:id="paneAccountOptions" prefHeight="222.0" prefWidth="340.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="340.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button id="btnStartSession" fx:id="btnEditInformation" mnemonicParsing="false" text="Edit Account" />
+                        <Button fx:id="btnProcessingControls" mnemonicParsing="false" text="Change Data Processing" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btnViewDataUsage" mnemonicParsing="false" text="View Data Usage" />
+                        <Button fx:id="btnDeleteAccount" mnemonicParsing="false" text="Delete Data" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

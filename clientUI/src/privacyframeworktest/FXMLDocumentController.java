@@ -44,6 +44,8 @@ public class FXMLDocumentController implements Initializable {
     Pane paneInit;
     @FXML
     Pane paneRecords;
+    @FXML
+    Pane paneAccountOptions;
     
     @FXML
     TextField txtUsername;
@@ -85,11 +87,11 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println("accept");
             else 
                 System.out.println("reject");
+            onlyVisiblePane(paneAccountOptions);
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-        onlyVisiblePane(paneInit);
     }
     
     @Override
@@ -111,6 +113,7 @@ public class FXMLDocumentController implements Initializable {
         panes.add(paneRecords);
         panes.add(paneInit);
         panes.add(paneLogin);
+        panes.add(paneAccountOptions);
         
         paneInit.setVisible(true);
         //onlyVisiblePane(paneSessionStart);
