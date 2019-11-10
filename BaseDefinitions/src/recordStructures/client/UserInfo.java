@@ -15,50 +15,76 @@ import recordStructures.SqlDataPair;
  * @author arevello
  */
 public class UserInfo implements RecordStructure{
+    public static final String tableName = "userdata";
     int idData = -1;
     String nameData = "";
     String addressData = "";
-    boolean processableData = false;
+    Boolean processableData = false;
     
-    SqlDataPair id;
-    SqlDataPair name;
-    SqlDataPair address;
-    SqlDataPair processable;
+    SqlDataPair idPair;
+    SqlDataPair namePair;
+    SqlDataPair addressPair;
+    SqlDataPair processablePair;
     
     boolean isEmpty = false;
     ArrayList<SqlDataPair> emptyList = new ArrayList<SqlDataPair>();
-    public UserInfo(int id, String name, String address, boolean processable) {
+    public UserInfo(int id, String name, String address, Boolean processable) {
         this.idData = id;
         this.nameData = name;
         this.addressData = address;
         this.processableData = processable;
         
-        this.id = new SqlDataPair("id", new PairGeneric(id));
-        this.name = new SqlDataPair("name", new PairGeneric(name));
-        this.address = new SqlDataPair("address", new PairGeneric(address));
-        this.processable = new SqlDataPair("processable", new PairGeneric(processable));
+        this.idPair = new SqlDataPair("id", new PairGeneric(id));
+        this.namePair = new SqlDataPair("name", new PairGeneric(name));
+        this.addressPair = new SqlDataPair("address", new PairGeneric(address));
+        this.processablePair = new SqlDataPair("processable", new PairGeneric(processable));
         
-        emptyList.add(this.id);
-        emptyList.add(this.name);
-        emptyList.add(this.address);
-        emptyList.add(this.processable);
+        emptyList.add(this.idPair);
+        emptyList.add(this.namePair);
+        emptyList.add(this.addressPair);
+        emptyList.add(this.processablePair);
+    }
+    
+    public UserInfo(String message) {
+        String[] tokens = message.split(",");
+        System.out.println(message);
+        for(int i = 0; i < tokens.length; i++)
+            System.out.println("AAAAA " + tokens[i]);
+        this.idData = Integer.parseInt(tokens[0]);
+        this.nameData = tokens[1];
+        this.addressData = tokens[2];
+        this.processableData = Boolean.valueOf(tokens[3]);
+        
+        this.idPair = new SqlDataPair("id", new PairGeneric(idData));
+        this.namePair = new SqlDataPair("name", new PairGeneric(nameData));
+        this.addressPair = new SqlDataPair("address", new PairGeneric(addressData));
+        this.processablePair = new SqlDataPair("processable", new PairGeneric(processableData));
+        
+        emptyList.add(this.idPair);
+        emptyList.add(this.namePair);
+        emptyList.add(this.addressPair);
+        emptyList.add(this.processablePair);
     }
     
     public UserInfo(){
         isEmpty = true;
         
-        this.id = new SqlDataPair("id", new PairGeneric(0));
-        this.name = new SqlDataPair("name", new PairGeneric(""));
-        this.address = new SqlDataPair("address", new PairGeneric(""));
-        this.processable = new SqlDataPair("processable", new PairGeneric(false));
+        this.idPair = new SqlDataPair("id", new PairGeneric(0));
+        this.namePair = new SqlDataPair("name", new PairGeneric(""));
+        this.addressPair = new SqlDataPair("address", new PairGeneric(""));
+        this.processablePair = new SqlDataPair("processable", new PairGeneric(false));
         
-        emptyList.add(id);
-        emptyList.add(name);
-        emptyList.add(address);
-        emptyList.add(processable);
+        emptyList.add(idPair);
+        emptyList.add(namePair);
+        emptyList.add(addressPair);
+        emptyList.add(processablePair);
     }
 
     public ArrayList<SqlDataPair> getEmptyList() {
         return emptyList;
+    }
+    
+    public String toMessageString(){
+        return "" + idData + "," + nameData + "," + addressData + "," + processableData;
     }
 }

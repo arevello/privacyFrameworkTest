@@ -12,13 +12,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import recordStructures.client.UserInfo;
 import server2.threads.ServerWorkerThread;
+import sqlTools.TableReader;
 
 /**
  *
  * @author arevello
  */
 public class ClientThread extends ServerWorkerThread {
+    int clientId = -1;
 
     public ClientThread(DataInputStream dis, DataOutputStream dos) {
         super(dis, dos);
@@ -27,6 +30,7 @@ public class ClientThread extends ServerWorkerThread {
     @Override
     public void run() {
         try {
+            TableReader tr = new TableReader(this.conn);
             while (true) {
                 System.out.println("client in loop");
                 //read int for type to read next
@@ -38,10 +42,24 @@ public class ClientThread extends ServerWorkerThread {
                     inputStream.read(b, 0, 1000);
                     LoginMessage lm = new LoginMessage(b);
                     System.out.println(lm.username + " " + lm.passwordHash);
-                    if(lm.username.equals("butt"))
+                    
+                    if(tr.loginValid(lm)){
+                        System.out.println("wow it worked");
                         outputStream.writeInt(ClientCodes.acceptMsg);
-                    else
+                    }
+                    else{
+                        System.out.println("nope");
                         outputStream.writeInt(ClientCodes.rejectMsg);
+                    }
+                    
+                    clientId = tr.getUserId(lm);
+                }
+                else if(type == ClientCodes.editAccountInformation){
+                    System.out.println("reading account info and sending");
+                    UserInfo ui = tr.getClientInfo(clientId);
+                    String msg = ui.toMessageString();
+                    this.outputStream.writeInt(msg.length());
+                    outputStream.write(msg.getBytes(), 0, msg.length());
                 }
                 else{
                     System.out.println("WRONG");

@@ -40,6 +40,22 @@ public class BuildDatabase {
             stmt.execute("INSERT INTO userdata VALUES (3,\'bobarino\',\'3 temp lane\',0)");
             stmt.execute("INSERT INTO userdata VALUES (4,\'bobette\',\'4 temp lane\',0)");
             stmt.execute("INSERT INTO userdata VALUES (5,\'bobert\',\'Norway\',0)");
+            
+            sql = "CREATE TABLE IF NOT EXISTS Accounts (\n"
+                + "    id integer PRIMARY KEY,\n"
+                + "    username text NOT NULL,\n"
+                + "    type integer,\n"
+                + "    passwordHash integer\n"
+                + ");";
+            stmt.execute(sql);
+            
+            int hash1 = ("temp").hashCode();
+            System.out.println(hash1);
+            stmt.execute("INSERT INTO Accounts VALUES (1,\'bob\',1,"+hash1+")");
+            stmt.execute("INSERT INTO Accounts VALUES (2,\'bobby\',1,"+hash1+")");
+            stmt.execute("INSERT INTO Accounts VALUES (3,\'bobarino\',1,"+hash1+")");
+            stmt.execute("INSERT INTO Accounts VALUES (4,\'bobette\',1,"+hash1+")");
+            stmt.execute("INSERT INTO Accounts VALUES (5,\'bobert\',1,"+hash1+")");
         } catch (SQLException ex) {
             Logger.getLogger(BuildDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }

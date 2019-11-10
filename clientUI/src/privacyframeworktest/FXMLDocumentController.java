@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -61,17 +62,14 @@ public class FXMLDocumentController implements Initializable {
     private Button btnEdit;
     @FXML
     private Button btnStartSession;
+    @FXML
+    private Button btnEditAccount;
+    @FXML
+    private Button btnConfirmRecords;
     
     @FXML
     private void btnLoginClicked(ActionEvent event) {
         onlyVisiblePane(paneLogin);
-    }
-    
-    @FXML
-    private void btnCreateAccountClicked(ActionEvent event){
-        onlyVisiblePane(paneRecords);
-        
-        paneRecords.getChildren().add(this.recordToVBox(new UserInfo(), false));
     }
     
     @FXML
@@ -121,10 +119,16 @@ public class FXMLDocumentController implements Initializable {
     
     private void onlyVisiblePane(Pane visPane){
         for(Pane p : panes){
-            if(p.equals(visPane))
+            if(p.equals(visPane)){
+                if(p.equals(paneRecords))
+                    btnConfirmRecords.setVisible(true);
                 p.setVisible(true);
-            else
+            }
+            else{
+                if(p.equals(paneRecords))
+                    btnConfirmRecords.setVisible(false);
                 p.setVisible(false);
+            }
         }
     }
     
@@ -132,15 +136,60 @@ public class FXMLDocumentController implements Initializable {
         VBox ret = new VBox();
         ret.setAlignment(Pos.CENTER);
         for(int i = 0; i < rs.getEmptyList().size(); i++){
+            HBox h = new HBox();
             Label l = new Label(rs.getEmptyList().get(i).key);
-            TextField t = new TextField();
-            if(getValue)
-                t.setText(rs.getEmptyList().get(i).toString());
-            HBox h = new HBox(l,t);
+            if(rs.getEmptyList().get(i).value.getGenericClass().equals(Boolean.class)){
+                CheckBox cb = new CheckBox();
+                if(getValue){
+                    Boolean val;
+                    val = new Boolean(rs.getEmptyList().get(i).value.getData().toString());
+                    cb.setSelected(val);
+                }
+                h.getChildren().addAll(l,cb);
+            }
+            else{
+                TextField t = new TextField();
+                if(getValue)
+                    t.setText(rs.getEmptyList().get(i).value.getData().toString());
+                h.getChildren().addAll(l,t);
+            }
+            
             h.setAlignment(Pos.CENTER);
             ret.getChildren().add(h);
         }
         
         return ret;
     } 
+    
+    @FXML
+    private void btnCreateAccountClicked(ActionEvent event){
+        onlyVisiblePane(paneRecords);
+        
+        paneRecords.getChildren().add(0,this.recordToVBox(new UserInfo(), false));
+    }
+    
+    @FXML
+    private void btnEditAccountClicked(ActionEvent e){
+        try {
+            dout.writeInt(ClientCodes.editAccountInformation);
+            int size = din.readInt();
+            System.out.println("reading bytes " + size);
+            byte[] b = new byte[size];
+            din.read(b, 0, size);
+            String temp = new String(b);
+            System.out.println("read msg " + temp);
+            UserInfo ui = new UserInfo(temp);
+        
+            onlyVisiblePane(paneRecords);
+        
+            vboxRecords.getChildren().add(0,this.recordToVBox(ui, true));
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @FXML
+    private void btnConfirmRecordsClicked(ActionEvent e){
+        
+    }
 }
