@@ -9,6 +9,7 @@ package recordStructures;
  *
  * @author arevello
  */
+//pair of column name and value from sql table
 public class SqlDataPair {
     public String key = "";
     public PairGeneric value = null;

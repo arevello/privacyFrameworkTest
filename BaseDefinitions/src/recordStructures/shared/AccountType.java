@@ -14,6 +14,7 @@ import recordStructures.SqlDataPair;
  *
  * @author arevello
  */
+//account data table used for logging in and displaying the correct interface
 public class AccountType implements RecordStructure{
     public final static String tableName = "Accounts";
     int idData = -1;

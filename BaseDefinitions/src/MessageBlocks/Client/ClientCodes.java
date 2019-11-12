@@ -9,6 +9,7 @@ package MessageBlocks.Client;
  *
  * @author arevello
  */
+//codes for client messages
 public class ClientCodes {
     public static final int createNewAccount = 1;
     public static final int login = 2;

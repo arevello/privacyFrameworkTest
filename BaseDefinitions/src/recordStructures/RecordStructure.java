@@ -11,7 +11,8 @@ import java.util.ArrayList;
  *
  * @author Alex
  */
+//interface for all records
 public interface RecordStructure {
     
-    public ArrayList<SqlDataPair> getEmptyList();
+    public ArrayList<SqlDataPair> getEmptyList(); //list of all sql column names and their value
 }

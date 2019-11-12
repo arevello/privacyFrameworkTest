@@ -14,6 +14,7 @@ import recordStructures.SqlDataPair;
  *
  * @author arevello
  */
+//table that displays what fields third parties use and how they use them
 public class ThirdPartyFieldsUsed implements RecordStructure{
     int idData = -1;
     String fieldData = "";

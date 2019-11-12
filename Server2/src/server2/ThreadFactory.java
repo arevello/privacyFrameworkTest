@@ -23,6 +23,7 @@ public class ThreadFactory {
     public ThreadFactory() {
     }
 
+    //start relevant thread that has connected with us
     public void startThread(int type, DataInputStream dis, DataOutputStream dos) {
             System.out.println("started thread " + type);
             if(type == clientThread){

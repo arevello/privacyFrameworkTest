@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
  *
  * @author arevello
  */
+//message for logging in to any account. Password must be hashed
 public class LoginMessage implements Message{
     public String username;
     public int passwordHash;

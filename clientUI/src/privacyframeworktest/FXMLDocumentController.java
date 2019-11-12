@@ -67,11 +67,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button btnConfirmRecords;
     
+    //display the pane to allow the user to login
     @FXML
     private void btnLoginClicked(ActionEvent event) {
         onlyVisiblePane(paneLogin);
     }
     
+    //attempt to login with credentials entered in pane
     @FXML
     private void onStartSessionClicked(ActionEvent e){
         //onlyVisiblePane(null);
@@ -117,6 +119,8 @@ public class FXMLDocumentController implements Initializable {
         //onlyVisiblePane(paneSessionStart);
     }    
     
+    //make all panes not selected not visible. Only 1 pane will be visible at a time
+    //also contains specific situations for nondynamic objects that need to be displayed or hidden
     private void onlyVisiblePane(Pane visPane){
         for(Pane p : panes){
             if(p.equals(visPane)){
@@ -132,6 +136,8 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    //converts one of the records into a displayable set of pairs involving a descriptive label
+    //followed by the corresponding control
     private VBox recordToVBox(RecordStructure rs, boolean getValue){
         VBox ret = new VBox();
         ret.setAlignment(Pos.CENTER);
@@ -161,13 +167,16 @@ public class FXMLDocumentController implements Initializable {
         return ret;
     } 
     
+    //displays the pane that allows the creation of a new account
     @FXML
     private void btnCreateAccountClicked(ActionEvent event){
         onlyVisiblePane(paneRecords);
         
+        //build empty input field box to allow user to enter info
         paneRecords.getChildren().add(0,this.recordToVBox(new UserInfo(), false));
     }
     
+    //display the pane that allows the user to see and edit their information
     @FXML
     private void btnEditAccountClicked(ActionEvent e){
         try {
@@ -182,6 +191,7 @@ public class FXMLDocumentController implements Initializable {
         
             onlyVisiblePane(paneRecords);
         
+            //build box with fields filled in with users data
             vboxRecords.getChildren().add(0,this.recordToVBox(ui, true));
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);

@@ -17,6 +17,8 @@ import java.util.logging.Logger;
  *
  * @author arevello
  */
+//TODO
+//thread for server accounts that will allow the processing of data requests
 public class ServerWorkerThread implements Runnable{
     public DataInputStream inputStream;
     public DataOutputStream outputStream;

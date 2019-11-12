@@ -20,6 +20,7 @@ import sqlTools.TableReader;
  *
  * @author arevello
  */
+//thread to handle client requests
 public class ClientThread extends ServerWorkerThread {
     int clientId = -1;
 
@@ -27,6 +28,7 @@ public class ClientThread extends ServerWorkerThread {
         super(dis, dos);
     }
 
+    //main loop
     @Override
     public void run() {
         try {
@@ -36,8 +38,13 @@ public class ClientThread extends ServerWorkerThread {
                 //read int for type to read next
                 int type = inputStream.readInt();
                 System.out.println(type);
+                
+                //process a login and 
                 if(type == ClientCodes.login){
                     System.out.println("reading login message");
+                    //TODO change to send size before read OR define message size
+                    //  defined message size can't be hijacked by baddies
+                    //  if all look same won't know how to interpret
                     byte[] b = new byte[1000];
                     inputStream.read(b, 0, 1000);
                     LoginMessage lm = new LoginMessage(b);
@@ -54,6 +61,7 @@ public class ClientThread extends ServerWorkerThread {
                     
                     clientId = tr.getUserId(lm);
                 }
+                //allow user to view and change their account information
                 else if(type == ClientCodes.editAccountInformation){
                     System.out.println("reading account info and sending");
                     UserInfo ui = tr.getClientInfo(clientId);

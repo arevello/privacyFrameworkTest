@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  *
  * @author arevello
  */
+//cheap quick easy way to set up database for testing. Using sqlite, just delete db file to reset
 public class BuildDatabase {
 
     /**

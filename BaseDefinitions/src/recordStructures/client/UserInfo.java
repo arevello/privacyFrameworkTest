@@ -14,6 +14,7 @@ import recordStructures.SqlDataPair;
  *
  * @author arevello
  */
+//data for the controller containing their name, address, and if they are in the pool of data that can be shared
 public class UserInfo implements RecordStructure{
     public static final String tableName = "userdata";
     int idData = -1;

@@ -19,12 +19,14 @@ import recordStructures.shared.AccountType;
  *
  * @author Alex
  */
+//interact with database
 public class TableReader {
     Connection conn;
     public TableReader(Connection conn){
         this.conn = conn;
     }
     
+    //see if user exists and return boolean
     public boolean userExists(String table, String username){
         try {
             boolean ret = false;
@@ -41,6 +43,7 @@ public class TableReader {
         }
     }
     
+    //see if username and password match records
     public boolean loginValid(LoginMessage lm){
         try {
             boolean ret = false;
@@ -58,12 +61,15 @@ public class TableReader {
         }
     }
     
+    //get a user id from a login
+    //should only be used after valid login
     public int getUserId(LoginMessage lm){
         try{
             Statement s = conn.createStatement();
             ResultSet rs = s.executeQuery("SELECT id FROM " + AccountType.tableName + " WHERE username=\'" + 
                     lm.username + "\' AND passwordHash=\'" + lm.passwordHash + "\'");
             int id = rs.getInt("id");
+            rs.close();
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,6 +78,7 @@ public class TableReader {
         
     }
     
+    //get info of user to be processed and displayed
     public UserInfo getClientInfo(int clientId){
         try{
             Statement s = conn.createStatement();
@@ -81,6 +88,7 @@ public class TableReader {
             String name = rs.getString("name");
             String address = rs.getString("address");
             Boolean proc = rs.getBoolean("processable");
+            rs.close();
             return new UserInfo(id, name, address, proc);
         } catch (SQLException ex) {
             Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
  *
  * @author arevello
  */
+//main class for client ui
 public class PrivacyFrameworkTest extends Application {
     
     @Override

@@ -9,6 +9,7 @@ package recordStructures;
  *
  * @author arevello
  */
+//allows storing of any class into a sturcture that can be read from the table
 public class PairGeneric<T> {
     T data;
     

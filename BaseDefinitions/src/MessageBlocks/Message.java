@@ -9,6 +9,7 @@ package MessageBlocks;
  *
  * @author arevello
  */
+//interface that all messages will have, will be sent over tcp as bytebuffers
 public interface Message {
     public byte[] toByteBuffer();
     //public Class <?> fromByteBuffer(byte[] b);
