@@ -5,7 +5,7 @@
  */
 package recordStructures;
 
-import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
@@ -14,5 +14,5 @@ import java.util.ArrayList;
 //interface for all records
 public interface RecordStructure {
     
-    public ArrayList<SqlDataPair> getEmptyList(); //list of all sql column names and their value
+    public Map<String, PairGeneric> getEmptyList(); //list of all sql column names and their value
 }

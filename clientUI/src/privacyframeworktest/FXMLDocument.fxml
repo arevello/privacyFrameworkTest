@@ -26,7 +26,12 @@
                         <TextField id="txtPassword" fx:id="txtPassword" />
                      </children>
                   </HBox>
-                  <Button id="btnStartSession" fx:id="btnStartSession" mnemonicParsing="false" onAction="#onStartSessionClicked" text="Start Session" />
+                  <VBox alignment="CENTER" prefHeight="98.0" prefWidth="340.0">
+                     <children>
+                        <Button id="btnStartSession" fx:id="btnStartSession" mnemonicParsing="false" onAction="#onStartSessionClicked" text="Start Session" />
+                        <Label fx:id="lblLoginHint" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>

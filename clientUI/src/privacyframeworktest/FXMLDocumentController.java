@@ -7,19 +7,24 @@ package privacyframeworktest;
 
 import MessageBlocks.Client.ClientCodes;
 import MessageBlocks.Client.Messages.LoginMessage;
+import MessageBlocks.Message;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -27,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import recordStructures.PairGeneric;
 import recordStructures.RecordStructure;
 import recordStructures.client.UserInfo;
 
@@ -56,6 +62,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     VBox vboxRecords;
     
+    @FXML
+    Label lblLoginHint;
+    
     ArrayList<Pane> panes = new ArrayList<Pane>();
     
     @FXML
@@ -84,10 +93,11 @@ public class FXMLDocumentController implements Initializable {
             dout.write(lm.toByteBuffer());
             
             if(din.readInt() == ClientCodes.acceptMsg)
-                System.out.println("accept");
-            else 
-                System.out.println("reject");
-            onlyVisiblePane(paneAccountOptions);
+                onlyVisiblePane(paneAccountOptions);
+            else{ 
+                lblLoginHint.setText("Invalid Login");
+                txtPassword.setText("");
+            }
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -124,13 +134,9 @@ public class FXMLDocumentController implements Initializable {
     private void onlyVisiblePane(Pane visPane){
         for(Pane p : panes){
             if(p.equals(visPane)){
-                if(p.equals(paneRecords))
-                    btnConfirmRecords.setVisible(true);
                 p.setVisible(true);
             }
             else{
-                if(p.equals(paneRecords))
-                    btnConfirmRecords.setVisible(false);
                 p.setVisible(false);
             }
         }
@@ -141,14 +147,15 @@ public class FXMLDocumentController implements Initializable {
     private VBox recordToVBox(RecordStructure rs, boolean getValue){
         VBox ret = new VBox();
         ret.setAlignment(Pos.CENTER);
-        for(int i = 0; i < rs.getEmptyList().size(); i++){
+        
+        for(Map.Entry<String, PairGeneric> e : rs.getEmptyList().entrySet()){
             HBox h = new HBox();
-            Label l = new Label(rs.getEmptyList().get(i).key);
-            if(rs.getEmptyList().get(i).value.getGenericClass().equals(Boolean.class)){
+            Label l = new Label(e.getKey());
+            if(e.getValue().getGenericClass().equals(Boolean.class)){
                 CheckBox cb = new CheckBox();
                 if(getValue){
                     Boolean val;
-                    val = new Boolean(rs.getEmptyList().get(i).value.getData().toString());
+                    val = new Boolean(e.getValue().getData().toString());
                     cb.setSelected(val);
                 }
                 h.getChildren().addAll(l,cb);
@@ -156,7 +163,7 @@ public class FXMLDocumentController implements Initializable {
             else{
                 TextField t = new TextField();
                 if(getValue)
-                    t.setText(rs.getEmptyList().get(i).value.getData().toString());
+                    t.setText(e.getValue().getData().toString());
                 h.getChildren().addAll(l,t);
             }
             
@@ -166,6 +173,13 @@ public class FXMLDocumentController implements Initializable {
         
         return ret;
     } 
+    
+    public UserInfo vboxToUserInfo(VBox v, boolean getValue){
+        UserInfo ui = new UserInfo();
+        //ui.getEmptyList().
+        
+        return ui;
+    }
     
     //displays the pane that allows the creation of a new account
     @FXML
@@ -181,13 +195,10 @@ public class FXMLDocumentController implements Initializable {
     private void btnEditAccountClicked(ActionEvent e){
         try {
             dout.writeInt(ClientCodes.editAccountInformation);
-            int size = din.readInt();
-            System.out.println("reading bytes " + size);
-            byte[] b = new byte[size];
-            din.read(b, 0, size);
-            String temp = new String(b);
-            System.out.println("read msg " + temp);
-            UserInfo ui = new UserInfo(temp);
+            UserInfo ui = new UserInfo();
+            byte[] b = new byte[Message.messageSize];
+            din.read(b, 0, Message.messageSize);
+            ui.fromByteBuffer(b);
         
             onlyVisiblePane(paneRecords);
         
@@ -200,6 +211,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void btnConfirmRecordsClicked(ActionEvent e){
-        
+        ObservableList<Node> nodes = vboxRecords.getChildren();
+        UserInfo ui = new UserInfo();
     }
 }

@@ -5,10 +5,10 @@
  */
 package recordStructures.thirdParty;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import recordStructures.PairGeneric;
 import recordStructures.RecordStructure;
-import recordStructures.SqlDataPair;
 
 /**
  *
@@ -21,45 +21,30 @@ public class ThirdPartyFieldsUsed implements RecordStructure{
     String usesData = "";
     String descriptionData = "";
     
-    SqlDataPair id;
-    SqlDataPair field;
-    SqlDataPair uses;
-    SqlDataPair description;
-    
     boolean isEmpty = false;
-    ArrayList<SqlDataPair> emptyList = new ArrayList<SqlDataPair>();
+    Map<String, PairGeneric> emptyList = new HashMap<>();
     public ThirdPartyFieldsUsed(int id, String field, String uses, String description) {
         this.idData = id;
         this.fieldData = field;
         this.usesData = uses;
         this.descriptionData = description;
         
-        this.id = new SqlDataPair("id", new PairGeneric(id));
-        this.field = new SqlDataPair("field", new PairGeneric(field));
-        this.uses = new SqlDataPair("uses", new PairGeneric(uses));
-        this.description = new SqlDataPair("description", new PairGeneric(description));
-        
-        emptyList.add(this.id);
-        emptyList.add(this.field);
-        emptyList.add(this.uses);
-        emptyList.add(this.description);
+        emptyList.put("id", new PairGeneric(id));
+        emptyList.put("field", new PairGeneric(field));
+        emptyList.put("uses", new PairGeneric(uses));
+        emptyList.put("description", new PairGeneric(description));
     }
     
     public ThirdPartyFieldsUsed(){
         isEmpty = true;
         
-        this.id = new SqlDataPair("id", new PairGeneric(0));
-        this.field = new SqlDataPair("field", new PairGeneric(""));
-        this.uses = new SqlDataPair("uses", new PairGeneric(""));
-        this.description = new SqlDataPair("description", new PairGeneric(""));
-        
-        emptyList.add(id);
-        emptyList.add(field);
-        emptyList.add(uses);
-        emptyList.add(description);
+        emptyList.put("id", new PairGeneric(0));
+        emptyList.put("field", new PairGeneric(""));
+        emptyList.put("uses", new PairGeneric(""));
+        emptyList.put("description", new PairGeneric(""));
     }
 
-    public ArrayList<SqlDataPair> getEmptyList() {
+    public Map<String, PairGeneric> getEmptyList() {
         return emptyList;
     }
 }

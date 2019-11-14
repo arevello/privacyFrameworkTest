@@ -11,6 +11,8 @@ package MessageBlocks;
  */
 //interface that all messages will have, will be sent over tcp as bytebuffers
 public interface Message {
+    public static final int messageSize = 10000;
     public byte[] toByteBuffer();
+    public void fromByteBuffer(byte[] b);
     //public Class <?> fromByteBuffer(byte[] b);
 }

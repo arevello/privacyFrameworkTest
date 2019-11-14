@@ -12,3 +12,10 @@
 /BaseDefinitions/build/
 /SqlTools/dist/
 /SqlTools/build/
+/SqlTools/nbproject/private/
+clientUI/nbproject/build-impl.xml
+clientUI/nbproject/private/private.properties
+clientUI/nbproject/build-impl.xml
+clientUI/nbproject/private/private.properties
+clientUI/nbproject/build-impl.xml
+clientUI/nbproject/project.properties

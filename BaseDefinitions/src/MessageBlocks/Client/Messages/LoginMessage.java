@@ -22,7 +22,13 @@ public class LoginMessage implements Message{
         passwordHash = p;
     }
     
-    public LoginMessage(byte[] b){
+    public LoginMessage(){
+        username = "";
+        passwordHash = 0;
+    }
+    
+    @Override
+    public void fromByteBuffer(byte[] b){
         ByteBuffer buf = ByteBuffer.wrap(b);
         int unameLen = buf.getInt();
         byte[] tempUname = new byte[unameLen];
@@ -33,7 +39,7 @@ public class LoginMessage implements Message{
 
     @Override
     public byte[] toByteBuffer() {
-        ByteBuffer b = ByteBuffer.allocate(1000);
+        ByteBuffer b = ByteBuffer.allocate(Message.messageSize);
         b.putInt(username.length());
         b.put(username.getBytes());
         b.putInt(passwordHash);

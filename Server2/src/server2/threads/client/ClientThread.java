@@ -7,6 +7,7 @@ package server2.threads.client;
 
 import MessageBlocks.Client.ClientCodes;
 import MessageBlocks.Client.Messages.LoginMessage;
+import MessageBlocks.Message;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -45,29 +46,29 @@ public class ClientThread extends ServerWorkerThread {
                     //TODO change to send size before read OR define message size
                     //  defined message size can't be hijacked by baddies
                     //  if all look same won't know how to interpret
-                    byte[] b = new byte[1000];
-                    inputStream.read(b, 0, 1000);
-                    LoginMessage lm = new LoginMessage(b);
+                    byte[] b = new byte[Message.messageSize];
+                    inputStream.read(b, 0, Message.messageSize);
+                    LoginMessage lm = new LoginMessage();
+                    lm.fromByteBuffer(b);
                     System.out.println(lm.username + " " + lm.passwordHash);
                     
                     if(tr.loginValid(lm)){
                         System.out.println("wow it worked");
                         outputStream.writeInt(ClientCodes.acceptMsg);
+                        
+                        clientId = tr.getUserId(lm);
                     }
                     else{
                         System.out.println("nope");
                         outputStream.writeInt(ClientCodes.rejectMsg);
                     }
                     
-                    clientId = tr.getUserId(lm);
                 }
                 //allow user to view and change their account information
                 else if(type == ClientCodes.editAccountInformation){
                     System.out.println("reading account info and sending");
                     UserInfo ui = tr.getClientInfo(clientId);
-                    String msg = ui.toMessageString();
-                    this.outputStream.writeInt(msg.length());
-                    outputStream.write(msg.getBytes(), 0, msg.length());
+                    outputStream.write(ui.toByteBuffer(), 0, Message.messageSize);
                 }
                 else{
                     System.out.println("WRONG");
