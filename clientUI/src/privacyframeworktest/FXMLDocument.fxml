@@ -79,5 +79,38 @@
             </VBox>
          </children>
       </Pane>
+      <Pane fx:id="paneCreateAccount" prefHeight="222.0" prefWidth="340.0" visible="false">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="340.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Username" />
+                        <Separator prefWidth="30.0" />
+                        <TextField fx:id="txtCreateAccountUsername" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Password" />
+                        <Separator prefWidth="30.0" />
+                        <TextField id="txtPassword" fx:id="txtCreateAccountPassword" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ChoiceBox fx:id="cbAccountType" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="98.0" prefWidth="340.0">
+                     <children>
+                        <Button id="btnStartSession" fx:id="btnConfirmAccountCreate" mnemonicParsing="false" onAction="#btnConfirmAccountCreateClicked" text="Create Account" />
+                        <Label fx:id="lblConfirmAccountCreateHint" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

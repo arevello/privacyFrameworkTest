@@ -31,7 +31,7 @@ public class TableReader {
         try {
             boolean ret = false;
             Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM " + table + " WHERE username=" + username);
+            ResultSet rs = s.executeQuery("SELECT * FROM " + AccountType.tableName + " WHERE username=\'" + username +"\';");
             if(rs.next()){
                 ret = true;
             }
@@ -49,7 +49,7 @@ public class TableReader {
             boolean ret = false;
             Statement s = conn.createStatement();
             ResultSet rs = s.executeQuery("SELECT * FROM " + AccountType.tableName + " WHERE username=\'" + 
-                    lm.username + "\' AND passwordHash=\'" + lm.passwordHash + "\'");
+                    lm.username + "\' AND passwordHash=" + lm.passwordHash + ";");
             if(rs.next()){
                 ret = true;
             }
@@ -82,8 +82,8 @@ public class TableReader {
     public UserInfo getClientInfo(int clientId){
         try{
             Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM " + UserInfo.tableName + " WHERE id=\'" + 
-                    clientId + "\'");
+            ResultSet rs = s.executeQuery("SELECT * FROM " + UserInfo.tableName + " WHERE id=" + 
+                    clientId + ";");
             int id = rs.getInt("id");
             String name = rs.getString("name");
             String address = rs.getString("address");
@@ -93,6 +93,21 @@ public class TableReader {
         } catch (SQLException ex) {
             Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
             return new UserInfo();
+        }
+    }
+    
+    public int addUser(LoginMessage lm){
+        try{
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery("SELECT COUNT (*) FROM " + AccountType.tableName + ";");
+            rs.next();
+            //TODO insert into
+            int size = rs.getInt(1);
+            System.out.println("SIZE " + size);
+            return 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(TableReader.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
     }
 }

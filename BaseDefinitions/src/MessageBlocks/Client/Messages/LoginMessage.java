@@ -16,15 +16,18 @@ import java.nio.ByteBuffer;
 public class LoginMessage implements Message{
     public String username;
     public int passwordHash;
+    public int type;
     
-    public LoginMessage(String u, int p){
+    public LoginMessage(String u, int p, int t){
         username = u;
         passwordHash = p;
+        type = t;
     }
     
     public LoginMessage(){
         username = "";
         passwordHash = 0;
+        type = 0;
     }
     
     @Override
@@ -35,6 +38,7 @@ public class LoginMessage implements Message{
         buf.get(tempUname, 0, unameLen);
         username = new String(tempUname);
         passwordHash =buf.getInt();
+        type = buf.getInt();
     }
 
     @Override
@@ -43,6 +47,7 @@ public class LoginMessage implements Message{
         b.putInt(username.length());
         b.put(username.getBytes());
         b.putInt(passwordHash);
+        b.putInt(type);
         
         return b.array();
     }

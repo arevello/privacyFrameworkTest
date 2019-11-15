@@ -19,3 +19,5 @@ clientUI/nbproject/build-impl.xml
 clientUI/nbproject/private/private.properties
 clientUI/nbproject/build-impl.xml
 clientUI/nbproject/project.properties
+*.xml
+*.properties

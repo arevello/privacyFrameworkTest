@@ -70,6 +70,19 @@ public class ClientThread extends ServerWorkerThread {
                     UserInfo ui = tr.getClientInfo(clientId);
                     outputStream.write(ui.toByteBuffer(), 0, Message.messageSize);
                 }
+                else if(type == ClientCodes.createNewAccount){
+                    LoginMessage lm = new LoginMessage();
+                    byte[] b = new byte[Message.messageSize];
+                    inputStream.read(b, 0, Message.messageSize);
+                    String table = "User";
+                    if(tr.userExists(table, lm.username)){
+                        outputStream.writeInt(ClientCodes.rejectMsg);
+                    }
+                    else{
+                        tr.addUser(lm);
+                        outputStream.writeInt(ClientCodes.acceptMsg);
+                    }
+                }
                 else{
                     System.out.println("WRONG");
                 }
